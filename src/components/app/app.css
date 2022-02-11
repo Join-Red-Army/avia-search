@@ -1,0 +1,95 @@
+body {
+  /* background-color: #999; */
+  /* margin: 0; */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+
+.form-sort {
+  width: 300px;
+  background-color: #f7f9ff;
+}
+
+.form-sort input::placeholder {
+  color: #b9b9b9;
+}
+
+.form-sort input:focus {
+  outline: none;
+}
+
+.form-sort input[type="radio"],
+.form-sort input[type="checkbox"] {
+  display: block;
+  margin-right: 10px;
+}
+
+label {
+  cursor: pointer;
+}
+
+.form__section {
+  margin-bottom: 20px;
+}
+
+.section__name {
+  margin: 0;
+  margin-bottom: 5px;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.carrier-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin-bottom: 3px;
+}
+
+.carrier-price {
+  color: #b9b9b9;
+}
+
+.form__select-city {
+  margin-bottom: 10px;
+}
+
+
+.form__group label {
+  margin-bottom: 60px;
+  color: #222222;
+}
+
+
+.section__group input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #dadada;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+
+  -moz-appearance:textfield;
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+  align-items: baseline;
+}
