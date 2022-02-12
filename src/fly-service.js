@@ -59,34 +59,29 @@ export default class FlySevrice {
   getSegmentsInfo({legs}) {
     const [legForward, legBackward] = legs;
 
-    // airline или operatingAirline 
-    const getAirline = (segments) => {
-      const firstSegment = segments[0];
-      if (firstSegment.hasOwnProperty('operatingAirline')) {
-        return firstSegment.operatingAirline.caption;
-      }
-      return firstSegment.airline.caption;
-    };
 
-    const getReadableTime = (num) => {
-      const hours = Math.floor(num / 60);
-      const minutes = num % 60;
-      return `${hours} ч ${minutes} мин`;
-    } 
+
+    // const getReadableTime = (num) => {
+    //   const hours = Math.floor(num / 60);
+    //   const minutes = num % 60;
+    //   return `${hours} ч ${minutes} мин`;
+    // } 
     
     const forwardSegments = legForward.segments;
-    const forwardSegmentsNumber = forwardSegments.length;
-    const forwardAirline = getAirline(forwardSegments);
-    const forwardSegmentsDuration = getReadableTime(legForward.duration);
+    const forwardSegmentsNumber = String(forwardSegments.length - 1);
+    // const forwardAirline = getAirline(forwardSegments);
+    const forwardSegmentsDuration = legForward.duration;
 
     const backwardSegments = legBackward.segments;
-    const backwardSegmentsNumber = backwardSegments.length;
-    const backwardAirline = getAirline(backwardSegments);
-    const backwardSegmentsDuration = getReadableTime(legBackward.duration);
+    const backwardSegmentsNumber = String(backwardSegments.length - 1);
+    // const backwardAirline = getAirline(backwardSegments);
+    const backwardSegmentsDuration = legBackward.duration;
+
+    const completeTime = forwardSegmentsDuration + backwardSegmentsDuration
 
     return {
-      forwardSegmentsNumber, forwardAirline, forwardSegmentsDuration,
-      backwardSegmentsNumber, backwardAirline, backwardSegmentsDuration
+      forwardSegmentsNumber, forwardSegmentsDuration,
+      backwardSegmentsNumber, backwardSegmentsDuration, completeTime
     };
 
   }
@@ -214,7 +209,11 @@ export default class FlySevrice {
   };
 
   sortFlightsByTime = (arr) => {
-
+    arr.sort((a, b) => {
+      return (
+        this.getSegmentsInfo(a).completeTime - this.getSegmentsInfo(b)
+      );
+    });
   }
 
   

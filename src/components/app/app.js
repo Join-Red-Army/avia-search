@@ -65,11 +65,10 @@ export default class App extends Component {
       forwardSegmentsNumber, backwardSegmentsNumber
     } = this.flySevrice.getSegmentsInfo(flight);
 
-    if (forwardSegmentsNumber !== backwardSegmentsNumber) return false;
+    const compareValue = forwardSegmentsNumber === backwardSegmentsNumber ? 
+      forwardSegmentsNumber : '1';
 
-    const compareNumber = String (forwardSegmentsNumber - 1);
-
-    return (this.state.segmentsNumber.includes(compareNumber) );
+    return (this.state.segmentsNumber.includes(compareValue) );
   }
 
 
@@ -92,20 +91,21 @@ export default class App extends Component {
     })
   };
 
-  // update() {
-  //   const new
+  сarrierSelectorFilter = (flight) => { 
+    if (this.state.selectedCarriers.length === 0) return true;
+    const currentUid = this.flySevrice.getCarrierUid(flight);
+    return this.state.selectedCarriers.includes(currentUid);
+  };
+
+  // flightsSort = (flights) => {
+  //   const { sortType } = this.state;
+  //   if (sortType === '')
   // }
 
 
   render() {
-    
     let filteredFlightsList = this.state.flights
-      // 
-      .filter((el) => { 
-        if (this.state.selectedCarriers.length === 0) return true;
-        const currentUid = this.flySevrice.getCarrierUid(el);
-        return this.state.selectedCarriers.includes(currentUid);
-      })
+      .filter(this.сarrierSelectorFilter)
       .filter(this.segmentsFilter);
 
   //  this.flySevrice.sortFlightsByHighestPrice(filteredFlightsList);

@@ -54,17 +54,22 @@ const PathSelector = (props) => {
 
 
 const SortingSection = (props) => {
-  const btnNames = ['по возрастанию цены', 'по убыванию цены', 'по времени'];
+  const btnNames = [
+    { name: 'по возрастанию цены', value: 'low-to-hight'}, 
+    { name: 'по убыванию цены', value: 'hight-to-low' },
+    { name: 'по времени', value: 'by-time' }
+  ];
 
-  const CreateRadioElement = ({btnName}) => {
+  const CreateRadioElement = ({btnName, value}) => {
     const kebabName = btnName.split(' ').join('-');
 
     return (
       <div className='flex'>
         <input 
           type='radio' 
-          name='sort' 
+          name='sort'
           id={`sort-${kebabName}`}
+          value={value}
         />
         <label htmlFor={`sort-${kebabName}`}>
           {btnName}
@@ -78,7 +83,7 @@ const SortingSection = (props) => {
       <h3 className='section__name'>Сортировать</h3>
         <div className='section__group'>
           {
-            btnNames.map((el, id) => <CreateRadioElement btnName={el} key={id} />)
+            btnNames.map(({name, value}, id) => <CreateRadioElement btnName={name} value={value} key={id} />)
           }
         </div>
     </div>
