@@ -1,0 +1,133 @@
+.ticket {
+  width: 700px;
+  margin-bottom: 25px;
+}
+
+
+/* header */
+.ticket__header {
+  background-color: #0087c9;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.header__carrier-logo {
+  width: auto;
+  height: 30px;
+}
+
+.header__info-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  color: #fff;
+}
+
+.header__info-price {
+  font-weight: 500;
+  font-size: 19px;
+}
+
+.header__info-type {
+  font-size: 12px;
+}
+
+
+
+/* section => path */
+.section__path {
+  padding: 10px;
+  border-bottom: 1px solid rgb(216, 216, 216);
+  /* font-size: 17px; */
+  /* text-align: center; */
+}
+
+
+/* section => time */
+.path__uid {
+  color: #0087c9;
+}
+
+.section__time {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time__ticket-time {
+  font-size: 20px;
+}
+
+.time__ticket-date {
+  color: #0087c9;
+}
+
+/* section => Segments */
+.section__segments {
+  text-align: center;
+  color: #ffab14;
+}
+
+.section__segments span {
+  position: relative;
+}
+
+.section__segments span::before {
+  content: '';
+  width: 250px;
+  height: 1px;
+  background-color: gray;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateX(-270px);
+}
+
+.section__segments span::after {
+  content: '';
+  width: 250px;
+  height: 1px;
+  background-color: gray;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateX(270px);
+}
+
+
+/* section => carrier */
+.section__carrier {
+  padding: 10px;
+}
+
+
+/* section => hr */
+.section__line {
+  color: #0087c9;
+}
+
+
+/* section => btn */
+.section__orange-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #ffb168;
+
+  border: none;
+
+  font-size: 17px;
+  text-transform: uppercase;
+  color: #fff;
+  
+  cursor: pointer;
+}
+
+.section__orange-btn:hover {
+  background-color: #f8ab63;;
+}
