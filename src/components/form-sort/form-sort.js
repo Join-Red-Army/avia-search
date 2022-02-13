@@ -3,16 +3,34 @@ import './form-sort.css';
 
 const FormSort = (props) => {
   const { 
-    allCarriers, lowestPrice, highestPrice, 
-    onCarrierSelector, onSegmentsSelector } = props;
+    allCarriers, lowestPrice, highestPrice, sortType,
+    onCarrierSelector, onSegmentsSelector, onSortingChange,
+    onPriceChange, maxPrice, minPrice } = props;
 
   return (
     <form className='form-sort'>
-      <PathSelector />
-      <PriceFilter lowestPrice={lowestPrice} highestPrice={highestPrice} />
-      <SortingSection />
-      <SegmentsFilter onSegmentsSelector={onSegmentsSelector}/>
-      <AirlinesSection allCarriers={allCarriers} onCarrierSelector={onCarrierSelector}/>
+      
+      <PriceInputs 
+        lowestPrice={lowestPrice} 
+        highestPrice={highestPrice} 
+        onPriceChange={onPriceChange}
+        maxPrice={maxPrice}
+        minPrice={minPrice}
+      />
+      
+      <SortingSection 
+        onSortingChange={onSortingChange} 
+        sortType={sortType}
+      />
+      
+      <SegmentsFilter 
+        onSegmentsSelector={onSegmentsSelector}
+      />
+      
+      <AirlinesSection 
+        allCarriers={allCarriers} 
+        onCarrierSelector={onCarrierSelector}
+      />
     </form>
   );
 };
@@ -22,38 +40,9 @@ export default FormSort;
 
 // Ниже расположены элементы формы
 
-
-const PathSelector = (props) => {
-  return (
-    <div className="form__section">
-      <h3 className='section__name'>Путь</h3>
-      <div className='section__group'> 
-
-        <div className='form__select-city'>
-          <label className='block' htmlFor='departure-city'>Откуда лететь</label>
-            <select className='departure-city' size='1'>
-              <option value='MOW'>Москва</option>
-              <option value='LED'>САНКТ-ПЕТЕРБУРГ</option>
-              <option value='LON'>Лондон</option>
-            </select>
-        </div>
-
-        <div className='form__select-city'>
-          <label className='block' htmlFor='arrival-city'>Куда лететь</label>
-            <select className='arrival-city' size='1'>
-              <option value='MOW'>Москва</option>
-              <option value='LED'>САНКТ-ПЕТЕРБУРГ</option>
-              <option value='LON'>Лондон</option>
-            </select>
-        </div>
-
-      </div>
-  </div>
-  )
-}
-
-
 const SortingSection = (props) => {
+  const { onSortingChange, sortType } = props;
+
   const btnNames = [
     { name: 'по возрастанию цены', value: 'low-to-hight'}, 
     { name: 'по убыванию цены', value: 'hight-to-low' },
@@ -70,6 +59,8 @@ const SortingSection = (props) => {
           name='sort'
           id={`sort-${kebabName}`}
           value={value}
+          onChange={onSortingChange}
+          checked={value === sortType}
         />
         <label htmlFor={`sort-${kebabName}`}>
           {btnName}
@@ -125,8 +116,10 @@ const SegmentsFilter = (props) => {
 };
 
 
-const PriceFilter = (props) => {
-  const { lowestPrice, highestPrice } = props;
+const PriceInputs = (props) => {
+  const { 
+    lowestPrice, highestPrice, 
+    onPriceChange, maxPrice, minPrice } = props;
   
   return(
     <div className="form__section">
@@ -134,13 +127,25 @@ const PriceFilter = (props) => {
       <div className='section__group'>
 
         <div className='form__select-city'>
-          <label className='block' htmlFor='filter-price-start'>От</label>
-          <input type='number' id='filter-price-start' placeholder={lowestPrice}/>
+          <label className='block' htmlFor='filter-price-min'>От</label>
+          <input 
+            type='number' 
+            id='filter-price-min' 
+            placeholder={lowestPrice}
+            onChange={onPriceChange}
+            value={minPrice}
+          />
         </div>
 
         <div className='form__select-city'>
-          <label className='block' htmlFor='filter-price-end'>До</label>
-          <input type='number' id='filter-price-start' placeholder={highestPrice}/>
+          <label className='block' htmlFor='filter-price-max'>До</label>
+          <input 
+            type='number'
+            id='filter-price-max' 
+            placeholder={highestPrice}
+            value={maxPrice}
+            onChange={onPriceChange}
+          />
         </div>
 
       </div>

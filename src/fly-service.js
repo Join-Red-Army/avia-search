@@ -58,23 +58,13 @@ export default class FlySevrice {
 
   getSegmentsInfo({legs}) {
     const [legForward, legBackward] = legs;
-
-
-
-    // const getReadableTime = (num) => {
-    //   const hours = Math.floor(num / 60);
-    //   const minutes = num % 60;
-    //   return `${hours} ч ${minutes} мин`;
-    // } 
     
     const forwardSegments = legForward.segments;
     const forwardSegmentsNumber = String(forwardSegments.length - 1);
-    // const forwardAirline = getAirline(forwardSegments);
     const forwardSegmentsDuration = legForward.duration;
 
     const backwardSegments = legBackward.segments;
     const backwardSegmentsNumber = String(backwardSegments.length - 1);
-    // const backwardAirline = getAirline(backwardSegments);
     const backwardSegmentsDuration = legBackward.duration;
 
     const completeTime = forwardSegmentsDuration + backwardSegmentsDuration
@@ -110,7 +100,7 @@ export default class FlySevrice {
       const result = {};
       
 
-      // В базе данных ошибка: в 6-и полётах не указаны города
+      // В базе данных ошибка: в 7 полётах не указаны города
       if (!firstSegment.hasOwnProperty('departureCity')) {
         result.departureCity = 'ЛОНДОН';
       } else {
@@ -211,7 +201,7 @@ export default class FlySevrice {
   sortFlightsByTime = (arr) => {
     arr.sort((a, b) => {
       return (
-        this.getSegmentsInfo(a).completeTime - this.getSegmentsInfo(b)
+        (this.getSegmentsInfo(a).completeTime - this.getSegmentsInfo(b).completeTime)
       );
     });
   }

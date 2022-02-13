@@ -1,6 +1,7 @@
 .form-sort {
   width: 300px;
   background-color: #f7f9ff;
+  height: max-content;
 }
 
 .form-sort input::placeholder {

@@ -12,20 +12,22 @@ export default class App extends Component {
 
   state = {
     flights: this.flySevrice.getAllFlights(),
+    filteredFlights: null,
     allCarriers: this.flySevrice.getAllCarriers(),
-    filteredCarriers: [],
+
+    // значения в placeholder
     lowestPrice: this.flySevrice.lowestPrice,
     highestPrice: this.flySevrice.highestPrice,
 
     // фильтры
     selectedCarriers: [],
     segmentsNumber: [],
-    sortType: '',
 
-    cityDeparture: 'Москва',
-    cityArrival: 'Лондон',
+    minPrice: this.flySevrice.lowestPrice,
+    maxPrice: this.flySevrice.highestPrice,
+
+    sortType: null,
   }
-
 
   _deleteByIndex(arr, i) {
     return [
@@ -33,6 +35,59 @@ export default class App extends Component {
       ...arr.slice(i + 1)
     ];
   }
+
+
+  onPriceChange = (e) => {
+    const target = e.target;
+    const id = target.id;
+    const value = Number.parseInt(target.value);
+
+    console.log(id, value);
+
+    if (id === 'filter-price-min') {
+      this.setState({minPrice: value});
+    } else if (id === 'filter-price-max') {
+      this.setState({maxPrice: value});
+    }
+  }
+
+  priceFilter = (flight) => {
+    const currentPrice = this.flySevrice.getFlightPrice(flight);
+
+    let { minPrice, maxPrice } = this.state;
+
+    if (maxPrice === 0 || maxPrice < minPrice || isNaN(maxPrice)) {
+      maxPrice = Infinity;
+    }
+
+    if (isNaN(minPrice)) {
+      minPrice = 0;
+    }
+
+    return ( currentPrice >= minPrice && currentPrice <= maxPrice );
+  };
+
+
+  onSortingChange = (e) => {
+    const target = e.target;
+    const value = target.value;;
+
+    this.setState(({ sortType }) => {
+      console.log('сортировка: ' + value);
+      return { sortType: value }
+    });
+  }
+
+  sorting = (flights) => {
+    if (this.state.sortType === 'hight-to-low') {
+      this.flySevrice.sortFlightsByHighestPrice(flights);
+    } else if (this.state.sortType === 'low-to-hight') {
+      this.flySevrice.sortFlightsByLowestPrice(flights);
+    } else if (this.state.sortType === 'by-time') {
+      this.flySevrice.sortFlightsByTime(flights);
+    }
+    return;
+  };
 
 
   onSegmentsSelector = (e) => {
@@ -53,7 +108,6 @@ export default class App extends Component {
       return { segmentsNumber: newArray };
     });
   };
-
 
   segmentsFilter = (flight) => {
     if (
@@ -97,22 +151,27 @@ export default class App extends Component {
     return this.state.selectedCarriers.includes(currentUid);
   };
 
-  // flightsSort = (flights) => {
-  //   const { sortType } = this.state;
-  //   if (sortType === '')
-  // }
-
 
   render() {
     let filteredFlightsList = this.state.flights
       .filter(this.сarrierSelectorFilter)
-      .filter(this.segmentsFilter);
+      .filter(this.segmentsFilter)
+      .filter(this.priceFilter);
 
-  //  this.flySevrice.sortFlightsByHighestPrice(filteredFlightsList);
+    this.sorting(filteredFlightsList);
 
     return (
       <div className='app'>
-        <FormSort {...this.state} onCarrierSelector={this.onCarrierSelector} onSegmentsSelector={this.onSegmentsSelector}/>
+        <FormSort
+          allCarriers={this.state.allCarriers}
+          sortType={this.state.sortType}
+          onPriceChange={this.onPriceChange}
+          onCarrierSelector={this.onCarrierSelector} 
+          onSegmentsSelector={this.onSegmentsSelector}
+          onSortingChange={this.onSortingChange}
+          maxPrice={this.state.maxPrice}
+          minPrice={this.state.minPrice}
+        />
         <TicketList tickets={filteredFlightsList} />
       </div>
     );
